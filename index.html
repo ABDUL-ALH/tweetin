@@ -1,30 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <script src="https://kit.fontawesome.com/5e37a6b424.js" crossorigin="anonymous"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/index.css">
-    <title>tweetin</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tweenin — Feed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/index.css">
+  <script>
+    (function(){
+      const key='tweenin-theme';
+      const saved=localStorage.getItem(key);
+      if(saved==='dark'||(!saved&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)){
+        document.documentElement.classList.add('dark');
+      }
+      window.toggleTheme=function(){
+        document.documentElement.classList.toggle('dark');
+        localStorage.setItem(key,document.documentElement.classList.contains('dark')?'dark':'light');
+      }
+    })();
+  </script>
+  <script src="https://kit.fontawesome.com/5e37a6b424.js" crossorigin="anonymous"></script>
+  <meta name="theme-color" content="#111827">
+  <link rel="icon" href="data:,">
+  <title>Feed - Tweenin</title>
+  <meta name="description" content="Tweenin feed — clean, modern editor community">
+  <meta name="color-scheme" content="dark light">
+  <style>html{scroll-behavior:smooth}</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feed - Tweetin</title>
 </head>
-<!-- this is a website like twitter but for people that make edit. this side will include posting, prive group, open groups, messaging, hiring editors, selling yourself as an editor, and more. -->
-<!-- this is the homepage -->
 <body>
-    <header>
-        <h1>Welcome to tweetin</h1>
-</svg></a>
-    </header>
-    <div class="join">
-        <p>Join the others and start scrolling and posting</p>
-        <li>
-            <i class="fa-solid fa-arrow-down"></i>
-            <a href="/feed.html"><i class="fa-solid fa-house"></i></a>
-        </li>
+  <header class="navbar">
+    <div class="nav-left">
+      <h1 class="logo">Tweenin</h1>
     </div>
-    <footer>
-        <p>© 2024 tweetin. All rights reserved.</p>
-        <a href="/html/about.html">About</a> |
-        <a href="/html/contact.html">Contact</a> |
-        <a href="/html/privacy.html">Privacy Policy</a> |
-        <a href="/html/terms.html">Terms of Service</a>
-    </footer>    
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" onclick="toggleTheme()"><i class="fa-regular fa-moon"></i></button>
+      <button class="icon-btn" id="createBtn" aria-label="Create Post">＋</button>
+      <button class="icon-btn" id="logout-btn" aria-label="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+      <img src="https://i.pravatar.cc/40" class="avatar" alt="profile">
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="feed" id="feed-column">
+      <article class="composer">
+        <img src="https://i.pravatar.cc/40?img=12" class="avatar" alt="me">
+        <textarea class="composer-input" id="post-input" placeholder="Share something…" rows="3"></textarea>
+        <div class="composer-actions">
+          <button class="btn secondary" id="attachBtn"><i class="fa-regular fa-image"></i> Add Photo</button>
+          <button class="btn primary" id="post-btn">Post</button>
+        </div>
+      </article>
+
+      <section id="feed" class="feed-list"></section>
+    </section>
+
+    <aside class="sidebar">
+      <div class="card welcome">
+        <h3>Welcome to Tweenin!</h3>
+        <p>Share your edits and ideas with the community.</p>
+        <button class="btn primary wide">Create Post</button>
+      </div>
+      <div class="card suggestions">
+        <h4>Suggested editors</h4>
+        <ul class="suggest-list">
+          <li>
+            <img src="https://i.pravatar.cc/32?img=14" class="avatar" alt="@layla">
+            <span>@layla</span>
+            <button class="btn tiny">Follow</button>
+          </li>
+          <li>
+            <img src="https://i.pravatar.cc/32?img=22" class="avatar" alt="@omar">
+            <span>@omar</span>
+            <button class="btn tiny">Follow</button>
+          </li>
+        </ul>
+      </div>
+      <div class="card trends">
+        <h4>Trending</h4>
+        <div class="tags">
+          <a href="#" class="tag">#design</a>
+          <a href="#" class="tag">#writing</a>
+          <a href="#" class="tag">#tips</a>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <button class="fab" id="createFab" aria-label="Quick Create">＋</button>
+
+  <footer class="site-footer">
+    <nav class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+    </nav>
+    <p>© 2025 Tweenin — All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('createBtn')?.addEventListener('click', () => {
+      document.querySelector('.composer-input')?.focus();
+    });
+    document.getElementById('createFab')?.addEventListener('click', () => {
+      document.querySelector('.composer-input')?.focus();
+    });
+  </script>
+  <script type="module" src="js/feed.js"></script>
+</body>
+</html>
