@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } 
-  from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import { 
+  getFirestore, collection, addDoc, query, orderBy, serverTimestamp, onSnapshot 
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } 
   from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
@@ -36,7 +37,6 @@ function initFeed(user) {
   postBtn.addEventListener("click", async () => {
     const text = postInput.value.trim();
     if (!text) return alert("Write something first!");
-
     try {
       await addDoc(collection(db, "posts"), {
         text,
@@ -44,25 +44,21 @@ function initFeed(user) {
         createdAt: serverTimestamp(),
       });
       postInput.value = "";
-      loadPosts();
     } catch (error) {
       console.error("Error adding post:", error);
     }
   });
 
-  async function loadPosts() {
+  // 🔥 Real-time listener
+  const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+  onSnapshot(q, (snapshot) => {
     feed.innerHTML = "";
-    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
+    snapshot.forEach((doc) => {
       const post = doc.data();
       const div = document.createElement("div");
       div.classList.add("post");
       div.innerHTML = `<b>${post.user || "Unknown"}:</b> ${post.text}`;
       feed.appendChild(div);
     });
-  }
-
-  loadPosts();
+  });
 }

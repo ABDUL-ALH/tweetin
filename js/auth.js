@@ -51,9 +51,7 @@ document.getElementById("google-btn").addEventListener("click", async () => {
   }
 });
 
-// Auto-redirect if already logged in
+// Already logged in? Jump straight to feed
 onAuthStateChanged(auth, (user) => {
-  if (user) {
-    window.location.href = "feed.html";
-  }
+  if (user) window.location.href = "feed.html";
 });
